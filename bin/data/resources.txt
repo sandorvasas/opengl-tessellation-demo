@@ -1,0 +1,29 @@
+numTextures	10
+numShaders	3
+
+textures {
+	stone_wall1_d		"data/textures/stone_wall1_d.dds"
+	stone_wall1_n		"data/textures/stone_wall1_n.dds"
+	stone_wall2_d		"data/textures/stone_wall2_d.dds"
+	stone_wall2_n		"data/textures/stone_wall2_n.dds"
+	disp1			"data/textures/disp1.dds"
+	disp2			"data/textures/disp2.dds"
+	dispf			"data/textures/dispat.dds"
+	water_displacement	"data/textures/water_dispmap.dds"
+	rnm			"data/textures/rnm.dds"
+	skybox			"data/textures/skybox.dds"
+}
+
+shaders {
+	default			"data/shaders/default.txt"
+	passthru		"data/shaders/passthru.txt"
+	displace		"data/shaders/displace.txt"
+}
+
+materials {
+	library			"data/materials.txt"
+}
+
+models {
+	zombie			"data/models/zfat/zfat.md5mesh"
+}

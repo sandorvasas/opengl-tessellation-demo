@@ -1,0 +1,130 @@
+#VS_BEGIN
+#version 400
+
+uniform mat4 in_MVPMatrix;
+
+layout(location = 0) in vec3 in_Position;
+layout(location = 1) in vec2 in_TexCoord;
+
+out vec3 vs_Position;
+out vec2 vs_TexCoord;
+
+void main()
+{
+	vs_Position = in_Position;
+	vs_TexCoord = in_TexCoord;
+}
+
+#VS_END
+
+
+#TC_BEGIN
+#version 400
+uniform vec3	in_ViewPos;
+uniform float	in_TessLevel;
+layout(vertices = 3) out;
+
+in vec3 vs_Position[];
+in vec2 vs_TexCoord[];
+
+out vec3 tc_Position[];
+out vec2 tc_TexCoord[];
+
+void main() 
+{
+	tc_Position[ gl_InvocationID ] = vs_Position[ gl_InvocationID ];
+	tc_TexCoord[ gl_InvocationID ] = vs_TexCoord[ gl_InvocationID ];
+
+	if ( gl_InvocationID == 0 ) 
+	{
+			gl_TessLevelInner[ 0 ] = in_TessLevel;
+			gl_TessLevelOuter[ 0 ] = in_TessLevel;
+			gl_TessLevelOuter[ 1 ] = in_TessLevel;
+			gl_TessLevelOuter[ 2 ] = in_TessLevel;
+	}
+}
+
+#TC_END
+
+#TE_BEGIN
+#version 400
+layout(triangles, equal_spacing, cw) in;
+
+uniform sampler2D	map_Displacement1;
+uniform sampler2D	map_Displacement2;
+uniform sampler2D	map_Blend;
+uniform float		in_Time;
+uniform mat4		in_MVPMatrix;
+
+
+in vec3 tc_Position[];
+in vec2 tc_TexCoord[];
+
+out vec3 te_Position;
+out vec2 te_TexCoord;
+
+void main() 
+{
+	vec3 p0 = gl_TessCoord.x * tc_Position[ 0 ];
+	vec3 p1 = gl_TessCoord.y * tc_Position[ 1 ];
+	vec3 p2 = gl_TessCoord.z * tc_Position[ 2 ];
+
+	vec2 t0 = gl_TessCoord.x * tc_TexCoord[ 0 ];
+	vec2 t1 = gl_TessCoord.y * tc_TexCoord[ 1 ];
+	vec2 t2 = gl_TessCoord.z * tc_TexCoord[ 2 ];
+
+	te_TexCoord = t0 + t1 + t2;
+	te_Position = p0 + p1 + p2;
+
+	float disp1 =40.0* texture( map_Displacement1, te_TexCoord ).a;
+	float disp2 =25.0* texture( map_Displacement2, te_TexCoord ).a;
+	float blend = texture( map_Blend, te_TexCoord + vec2( in_Time* 0.1 ) ).a ;
+
+	te_Position.y += disp2 * ( 1.0 - blend ) + disp1 * blend;
+
+	gl_Position = in_MVPMatrix * vec4( te_Position, 1.0 );
+	
+}
+
+#TE_END
+
+#FS_BEGIN
+#version 400
+
+uniform sampler2D	map_Displacement1;
+uniform sampler2D	map_Displacement2;
+uniform sampler2D	map_Blend;
+uniform float		in_Time;
+uniform vec3		in_LightPos;
+uniform vec3		in_ViewPos;
+
+in vec3 te_Position;
+in vec2 te_TexCoord;
+
+layout(location = 0) out vec4 FragmentColor;
+
+
+void main() 
+{
+	vec3 T = vec3( -1.0, 0.0, 0.0 );
+	vec3 N = vec3( 0.0, 1.0, 0.0 );
+	mat3 TBN = mat3( T, normalize(cross(T,N)), N );
+
+	vec4 disp1 = 1.0*texture( map_Displacement1, te_TexCoord );
+	vec4 disp2 = 1.0*texture( map_Displacement2, te_TexCoord );
+	vec4 blend = texture( map_Blend, te_TexCoord + vec2( in_Time * 0.1 ) );
+
+	N = normalize(  normalize((disp2 * ( 1.0 - blend ) + disp1 * blend).xyz) * 6.0 - 3.0 );
+
+	vec3 L = normalize( TBN * ( in_LightPos - te_Position ) );
+	vec3 V = normalize( TBN * ( in_ViewPos - te_Position ) );
+
+	float NdotL = clamp( dot( N, L ), 0.0, 1.0 );
+	float specular = dot( V, -reflect( L, N ) );
+	specular = max( pow( specular, 80.0 ), 0.0 );
+	
+	FragmentColor.xyz = vec3( 0.3, 0.7, 0.3 ) * (0.2 + NdotL) + vec3(specular);
+	FragmentColor.w = 1.0;
+}
+
+#FS_END

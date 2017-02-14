@@ -1,0 +1,94 @@
+#FS_BEGIN
+#version 120
+uniform sampler2D diffuse1;
+uniform sampler2D normalmap;
+uniform float time;
+uniform vec3 lightPos;
+uniform vec3 viewPos;
+
+varying vec3 vert;
+
+float Fresnel( float lambertTerm, float fresnelBias, float fresnelPower )
+{
+	float facing = 1.0 - lambertTerm;
+
+	return max( fresnelBias + ( 1.0 - fresnelBias ) * pow( facing, fresnelPower ), 0.0 );
+}
+
+void main() {
+	vec3 t = normalize( vec3( -1.0, 0.0, 0.0 ) );
+	vec3 n = normalize( vec3( 0.0, 1.0, 0.0 ) );
+	vec3 b = normalize( cross( n, t ) );
+
+	mat3 TBN = mat3( t, b, n );
+
+	vec4 large  = texture2D( normalmap, ( vert.xz + time * 4.0 ) / 500.0 );
+	vec4 medium = texture2D( normalmap, ( vert.xz + time / 3.0 ) / 70.0 );
+	vec4 small  = texture2D( normalmap, ( vert.xz + time  ) / 40.0 );
+	vec3 N = normalize( ( large.rgb + medium.rgb + small.rgb )/3.0 * 6.0 - 3.0 );
+
+	vec3 V = normalize( TBN * ( viewPos - vert ) );
+	vec3 L = normalize( TBN * ( lightPos - vert ) );
+	float NdotL = clamp( dot( N, L ), 0.0, 1.0 );
+	float NdotV = clamp( dot( N, V ), 0.0, 1.0 );
+	float spec  = dot( V, -reflect( L, N )  );
+	spec = max( pow( spec, 80.0 ), 0.0 );
+
+	float fresnel = Fresnel( NdotV, 0.2, 5.0 );
+	
+	vec3 color = vec3( 0.5, 0.9, 0.9 );
+	gl_FragColor.xyz = color * fresnel + spec * vec3( 1.0, 1.0, 0.5 );
+	gl_FragColor.w = 1.0;
+}
+
+#FS_END
+
+
+
+#VS_BEGIN
+#version 120
+uniform sampler2D normalmap;
+uniform float time;
+uniform vec3 viewPos;
+
+uniform mat4 mvp;
+
+varying vec3 vert;
+
+
+void main() {
+	vec3 vertex = gl_Vertex.xyz;
+
+	vec4 large  = texture2D( normalmap, ( vertex.xz  + time * 4.0 ) / 500.0 );
+	vec4 medium = texture2D( normalmap, ( vertex.xz  + time / 3.0) / 70.0 );
+	vec4 small  = texture2D( normalmap, ( vertex.xz  + time  ) / 40.0 );
+
+	vertex.y += ( large.a - 0.5 ) * 2.0;
+	vertex.y += ( medium.a - 0.5 ) * 1.0;
+	vertex.y += ( small.a - 0.5 ) * 1.0;
+	
+	gl_Position = gl_ModelViewProjectionMatrix * vec4( vertex, 1.0 );
+
+	vert = vertex.xyz;
+}
+
+#VS_END
+
+
+#GS_BEGIN
+#GS_INPUT_TYPE GL_TRIANGLES
+#GS_OUTPUT_TYPE GL_TRIANGLE_STRIP
+#GS_MAX_VERTICES_OUT 8
+
+#version 120
+#extension GL_EXT_geometry_shader4 : enable
+
+void main() {
+	int i;
+	for ( i = 0; i < gl_VerticesIn; ++i ) {
+		gl_Position = gl_PositionIn[ i ];
+		EmitVertex();
+	}
+}
+
+#GS_END

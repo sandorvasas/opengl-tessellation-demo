@@ -1,0 +1,13 @@
+Resource loaded: [ texture ] data/textures/stone_wall1_d.dds
+Resource loaded: [ texture ] data/textures/stone_wall1_n.dds
+Resource loaded: [ texture ] data/textures/stone_wall2_d.dds
+Resource loaded: [ texture ] data/textures/stone_wall2_n.dds
+Resource loaded: [ texture ] data/textures/disp1.dds
+Resource loaded: [ texture ] data/textures/disp2.dds
+Resource loaded: [ texture ] data/textures/dispat.dds
+Resource loaded: [ texture ] data/textures/water_dispmap.dds
+Resource loaded: [ texture ] data/textures/rnm.dds
+Resource loaded: [ texture ] data/textures/skybox.dds
+Resource loaded: [ shader ] data/shaders/default.txt
+Resource loaded: [ shader ] data/shaders/passthru.txt
+Resource loaded: [ shader ] data/shaders/displace.txt

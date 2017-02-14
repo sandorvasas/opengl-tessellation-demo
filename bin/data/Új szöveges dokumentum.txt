@@ -1,0 +1,25 @@
+numMaterials 2
+
+material {
+	name		zfat
+	shader		md5shd
+	diffusemap	zombie_diff
+	normalmap	zombie_norm
+	specularmap	zombie_spec
+	diffuse		1.0 1.0 1.0
+	ambient		0.0 0.0 0.0
+	specular	0.2 0.2 0.2
+	shininess	20.0
+}
+
+material {
+	name		earth
+	shader		md5shd
+	diffusemap	dirt_diff
+	normalmap	dirt_norm
+	specularmap	dirt_spec
+	diffuse		1.0 1.0 1.0
+	ambient		0.0 0.0 0.0
+	specular	0.0 0.0 0.0
+	shininess	40.0
+}

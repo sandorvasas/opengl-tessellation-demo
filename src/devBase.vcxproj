@@ -1,0 +1,158 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{462F086F-79D7-486C-8606-6C806BB21F02}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>devBase</RootNamespace>
+    <ProjectName>FromTheCave</ProjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+    <OutDir>..\bin</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>..\bin</OutDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <OutputFile>..\bin\FromTheCave.exe</OutputFile>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="Application.cpp" />
+    <ClCompile Include="Boundings\AABB.cpp" />
+    <ClCompile Include="Boundings\Frustum.cpp" />
+    <ClCompile Include="game\GameLocal.cpp" />
+    <ClCompile Include="game\Menu.cpp" />
+    <ClCompile Include="Game\Model\Material.cpp" />
+    <ClCompile Include="Game\Model\MD5.cpp" />
+    <ClCompile Include="Game\Model\ModelManager.cpp" />
+    <ClCompile Include="game\Player.cpp" />
+    <ClCompile Include="Game\Water.cpp" />
+    <ClCompile Include="Game\World.cpp" />
+    <ClCompile Include="Game\WorldGenerator.cpp" />
+    <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Math\Math.cpp" />
+    <ClCompile Include="Math\Matrix.cpp" />
+    <ClCompile Include="Math\Plane.cpp" />
+    <ClCompile Include="Math\Quaternion.cpp" />
+    <ClCompile Include="Rendering\Font.cpp" />
+    <ClCompile Include="Rendering\OpenGL\GLexp.cpp" />
+    <ClCompile Include="Rendering\Renderer.cpp" />
+    <ClCompile Include="Rendering\Shader.cpp" />
+    <ClCompile Include="Rendering\Texture.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Application.h" />
+    <ClInclude Include="Boundings\AABB.h" />
+    <ClInclude Include="Boundings\Frustum.h" />
+    <ClInclude Include="Game\Chunk.h" />
+    <ClInclude Include="game\GameLocal.h" />
+    <ClInclude Include="game\Menu.h" />
+    <ClInclude Include="Game\Model\Material.h" />
+    <ClInclude Include="Game\Model\MD5.h" />
+    <ClInclude Include="Game\Model\ModelManager.h" />
+    <ClInclude Include="game\Player.h" />
+    <ClInclude Include="Game\Water.h" />
+    <ClInclude Include="Game\World.h" />
+    <ClInclude Include="Game\WorldGenerator.h" />
+    <ClInclude Include="Math\Math.h" />
+    <ClInclude Include="Math\Matrix.h" />
+    <ClInclude Include="Math\Plane.h" />
+    <ClInclude Include="Math\Quaternion.h" />
+    <ClInclude Include="Math\Vector.h" />
+    <ClInclude Include="Rendering\Colors.h" />
+    <ClInclude Include="Rendering\Font.h" />
+    <ClInclude Include="Rendering\OpenGL\GL.h" />
+    <ClInclude Include="Rendering\OpenGL\GL3.h" />
+    <ClInclude Include="Rendering\OpenGL\GLexp.h" />
+    <ClInclude Include="Rendering\OpenGL\GLext.h" />
+    <ClInclude Include="Rendering\OpenGL\WGLext.h" />
+    <ClInclude Include="Rendering\Renderer.h" />
+    <ClInclude Include="Rendering\Shader.h" />
+    <ClInclude Include="Rendering\Texture.h" />
+    <ClInclude Include="Sound\fmod.h" />
+    <ClInclude Include="Sound\fmod.hpp" />
+    <ClInclude Include="Sound\fmod_codec.h" />
+    <ClInclude Include="Sound\fmod_dsp.h" />
+    <ClInclude Include="Sound\fmod_errors.h" />
+    <ClInclude Include="Sound\fmod_memoryinfo.h" />
+    <ClInclude Include="Sound\fmod_output.h" />
+    <ClInclude Include="system\Entity.h" />
+    <ClInclude Include="System\List.h" />
+    <ClInclude Include="System\Logger.h" />
+    <ClInclude Include="System\System.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="Sound\fmodex_vc.lib" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\bin\data\shaders\default.txt" />
+    <None Include="..\bin\data\shaders\displace.txt" />
+    <None Include="..\bin\data\shaders\passthru.txt" />
+    <None Include="..\bin\data\shaders\water1.txt" />
+    <None Include="..\bin\data\shaders\water2.txt" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
